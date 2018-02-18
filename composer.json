@@ -1,0 +1,17 @@
+{
+    "name": "therealsmat/vhost-manager",
+    "author": "Oluwatosin Soremekun <soremekunoluwatosinsamuel@gmail.com>",
+    "description": "A command line tool to easily create and manage virtual hosts",
+    "type": "metapackage",
+    "require": {
+        "symfony/process": "^4.0",
+        "symfony/console": "^4.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "therealsmat\\": "src"
+        }
+    },
+    "license": "MIT",
+    "minimum-stability": "stable"
+}

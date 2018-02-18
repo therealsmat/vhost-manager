@@ -1,0 +1,14 @@
+#! /usr/bin/env php
+
+<?php
+
+use therealsmat\ListCommand;
+use therealsmat\NewSiteCommand;
+use Symfony\Component\Console\Application;
+
+require 'vendor/autoload.php';
+
+$app = new Application("PHP console tool for managing virtual hosts", "1.0");
+$app->add(new ListCommand);
+$app->add(new NewSiteCommand);
+$app->run();
