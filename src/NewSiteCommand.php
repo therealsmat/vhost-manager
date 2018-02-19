@@ -43,7 +43,11 @@ class NewSiteCommand extends command{
 
         $this->createSite($site_name, $domain_dir, $public_dir);
 
-        $this->runCommand("sudo a2ensite {$site_name}.conf && systemctl apache2 restart", TRUE);
+        $this->runCommand("sudo a2ensite {$site_name}.conf && systemctl reload apache2", TRUE);
+
+        $this->addToHosts($site_name);
+
+        $output->writeln("<info>{$site_name} created successfully!</info>");
     }
 
     private function getDomainDirectory()
@@ -65,6 +69,7 @@ class NewSiteCommand extends command{
 
     private function template($site_name, $domain_dir, $public_dir)
     {
+        
         return "<VirtualHost *:{$this->port}>
 
                     ServerName www.{$site_name}
@@ -92,6 +97,13 @@ class NewSiteCommand extends command{
         $filename = $this->sites_available_dir.''.$site_name.''.$this->ext;
         $content = $this->template($site_name, $domain_dir, $public_dir);
         file_put_contents($filename, $content);
+    }
+
+    private function addToHosts($site)
+    {
+        $hosts = file_get_contents('/etc/hosts');
+        $hosts .= "127.0.0.1    {$site}";
+        file_put_contents('/etc/hosts', $hosts);
     }
 
     private function ask($question, $input, $output)
