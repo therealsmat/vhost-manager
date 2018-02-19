@@ -16,6 +16,12 @@ class NewSiteCommand extends command{
      */
     private $ext = '.conf';
 
+    private $port = 80;
+
+    private $sites_available_dir = '/etc/apache2/sites-available/';
+
+    private $sites_enabled_dir = '/etc/apache2/sites-enabled/';
+
     public function configure()
     {
         $this->setName('new:site')
@@ -29,8 +35,20 @@ class NewSiteCommand extends command{
 
         $this->verifySiteDoesNotExist($site_name);
 
-        $output->writeln("<info>Creating {$site_name}...</info>");
+        $domain_dir = $this->getDomainDirectory();
+        
+        $public_dir = $this->ask('Site public directory - ', $input, $output);
 
+        $output->writeln("<info>Creating {$site_name} in {$domain_dir}/{$public_dir} at port {$this->port}...</info>");
+
+        $this->createSite($site_name, $domain_dir, $public_dir);
+
+        $this->runCommand("sudo a2ensite {$site_name}.conf && systemctl apache2 restart", TRUE);
+    }
+
+    private function getDomainDirectory()
+    {
+        return $this->runCommand("pwd");
     }
 
     private function verifySiteDoesNotExist($name)
@@ -45,6 +63,37 @@ class NewSiteCommand extends command{
         throw new \RuntimeException('Site Already Exists!');
     }
 
+    private function template($site_name, $domain_dir, $public_dir)
+    {
+        return "<VirtualHost *:{$this->port}>
+
+                    ServerName www.{$site_name}
+                    ServerAlias {$site_name}
+                    DocumentRoot {$domain_dir}/{$public_dir}
+
+                    # Available loglevels: trace8, ..., trace1, debug, info, notice, warn,
+                    # error, crit, alert, emerg.
+                    # It is also possible to configure the loglevel for particular
+                    # modules, e.g.
+                    #LogLevel info ssl:warn
+
+                    ErrorLog {$domain_dir}/error.log
+                    CustomLog {$domain_dir}/access.log combined
+
+                </VirtualHost>
+
+                # vim: syntax=apache ts=4 sw=4 sts=4 sr noet
+
+                ";
+    }
+
+    private function createSite($site_name, $domain_dir, $public_dir)
+    {
+        $filename = $this->sites_available_dir.''.$site_name.''.$this->ext;
+        $content = $this->template($site_name, $domain_dir, $public_dir);
+        file_put_contents($filename, $content);
+    }
+
     private function ask($question, $input, $output)
     {
         $helper = $this->getHelper('question');
@@ -57,8 +106,24 @@ class NewSiteCommand extends command{
     private function getAvailableSites()
     {
         $enabled_sites_dir = '/etc/apache2/sites-enabled';
-        $command = "cd {$enabled_sites_dir} && ls";
+        $command = "cd {$this->sites_enabled_dir} && ls";
         $process = new Process($command);
+        $process->run();
+
+        return $process->getOutput();
+    }
+
+    private function runCommand($command, $showRealTimeOutput = false)
+    {
+        $process = new Process($command);
+
+        if($showRealTimeOutput) {
+            $process->run(function($type, $buffer){
+                echo $buffer;
+            });
+            return;
+        }
+
         $process->run();
 
         return $process->getOutput();

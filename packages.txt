@@ -1,0 +1,15 @@
+ii  libapache2-mod-php                         1:7.1+54ubuntu1                             all          server-side, HTML-embedded scripting language (Apache 2 module) (default)
+ii  libapache2-mod-php7.1                      7.1.11-0ubuntu0.17.10.1                     amd64        server-side, HTML-embedded scripting language (Apache 2 module)
+ii  php                                        1:7.1+54ubuntu1                             all          server-side, HTML-embedded scripting language (default)
+ii  php-cli                                    1:7.1+54ubuntu1                             all          command-line interpreter for the PHP scripting language (default)
+ii  php-common                                 1:54ubuntu1                                 all          Common files for PHP packages
+ii  php-mcrypt                                 1:7.1+54ubuntu1                             all          libmcrypt module for PHP [default]
+ii  php-mysql                                  1:7.1+54ubuntu1                             all          MySQL module for PHP [default]
+ii  php7.1                                     7.1.11-0ubuntu0.17.10.1                     all          server-side, HTML-embedded scripting language (metapackage)
+ii  php7.1-cli                                 7.1.11-0ubuntu0.17.10.1                     amd64        command-line interpreter for the PHP scripting language
+ii  php7.1-common                              7.1.11-0ubuntu0.17.10.1                     amd64        documentation, examples and common module for PHP
+ii  php7.1-json                                7.1.11-0ubuntu0.17.10.1                     amd64        JSON module for PHP
+ii  php7.1-mcrypt                              7.1.11-0ubuntu0.17.10.1                     amd64        libmcrypt module for PHP
+ii  php7.1-mysql                               7.1.11-0ubuntu0.17.10.1                     amd64        MySQL module for PHP
+ii  php7.1-opcache                             7.1.11-0ubuntu0.17.10.1                     amd64        Zend OpCache module for PHP
+ii  php7.1-readline                            7.1.11-0ubuntu0.17.10.1                     amd64        readline module for PHP
