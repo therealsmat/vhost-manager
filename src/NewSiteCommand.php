@@ -129,7 +129,6 @@ class NewSiteCommand extends command{
 
     private function getAvailableSites()
     {
-        $enabled_sites_dir = '/etc/apache2/sites-enabled';
         $command = "cd {$this->sites_enabled_dir} && ls";
         $process = new Process($command);
         $process->run();

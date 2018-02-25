@@ -1,6 +1,8 @@
 <?php namespace therealsmat;
 
 use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Helper\Table;
+use Symfony\Component\Console\Helper\TableSeparator;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Process\Process;
@@ -18,8 +20,13 @@ class ListCommand extends command{
         $enabled_sites_dir = '/etc/apache2/sites-enabled';
         $command = "cd {$enabled_sites_dir} && ls";
         $process = new Process($command);
-        $process->run(function ($type, $line) use ($output){
-            $output->write($line);
+        $table = new Table($output);
+        $table->setHeaders(['#', 'Domain Names']);
+        $process->run(function ($type, $line) use ($output, $table){
+            $table->setRows([
+               ['#', $line]
+            ]);
         });
+        $table->render();
     }
 }
