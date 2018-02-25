@@ -114,15 +114,15 @@ class NewSiteCommand extends command{
     private function addToHosts($site)
     {
         $hosts = file_get_contents('/etc/hosts');
-        $hosts .= "127.0.0.1    {$site}";
+        $hosts .= "127.0.0.1       {$site}".PHP_EOL;
         file_put_contents('/etc/hosts', $hosts);
     }
 
-    private function ask($question, $input, $output)
+    private function ask($question, $input, $output, $default = NULL)
     {
         $helper = $this->getHelper('question');
 
-        $question = new Question($question);
+        $question = new Question($question, $default);
 
         return $helper->ask($input, $output, $question);
     }
