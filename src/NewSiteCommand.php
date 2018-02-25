@@ -36,6 +36,8 @@ class NewSiteCommand extends command{
         $this->verifySiteDoesNotExist($site_name);
 
         $domain_dir = $this->getDomainDirectory();
+
+        $domain_dir = trim($domain_dir);
         
         $public_dir = $this->ask('Site public directory - ', $input, $output);
 
@@ -47,7 +49,11 @@ class NewSiteCommand extends command{
 
         $this->addToHosts($site_name);
 
-        $output->writeln("<info>{$site_name} created successfully!</info>");
+        $output->writeln("----------------------------------------------------");
+
+        $output->writeln("<info>Site {$site_name} created successfully!</info>");
+
+        $output->writeln("----------------------------------------------------");
     }
 
     private function getDomainDirectory()
@@ -69,12 +75,18 @@ class NewSiteCommand extends command{
 
     private function template($site_name, $domain_dir, $public_dir)
     {
-        
+        $document_root = $domain_dir.'/'.$public_dir;
         return "<VirtualHost *:{$this->port}>
 
                     ServerName www.{$site_name}
                     ServerAlias {$site_name}
-                    DocumentRoot {$domain_dir}/{$public_dir}
+                    DocumentRoot {$document_root}
+
+                    <Directory {$document_root}>
+                        Options Indexes FollowSymLinks
+                        AllowOverride All
+                        Require all granted
+                    </Directory>
 
                     # Available loglevels: trace8, ..., trace1, debug, info, notice, warn,
                     # error, crit, alert, emerg.
