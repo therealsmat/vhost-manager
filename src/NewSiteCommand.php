@@ -37,9 +37,15 @@ class NewSiteCommand extends command{
 
         $domain_dir = $this->getDomainDirectory();
 
+        $domain_dir = $this->ask('Enter root directory for this site - ', $input, $output, $domain_dir);
+
         $domain_dir = trim($domain_dir);
+
+        $this->ensureDirectoryExists($domain_dir);
         
         $public_dir = $this->ask('Site public directory - ', $input, $output);
+
+        $this->ensureDirectoryExists($domain_dir.'/'.$public_dir);
 
         $output->writeln("<info>Creating {$site_name} in {$domain_dir}/{$public_dir} at port {$this->port}...</info>");
 
@@ -150,5 +156,12 @@ class NewSiteCommand extends command{
         $process->run();
 
         return $process->getOutput();
+    }
+
+    private function ensureDirectoryExists($domain_dir)
+    {
+        if (! file_exists($domain_dir)) {
+            mkdir($domain_dir);
+        }
     }
 }
