@@ -4,8 +4,8 @@
     "description": "A command line tool to easily create and manage virtual hosts",
     "type": "metapackage",
     "require": {
-        "symfony/process": "^4.0",
-        "symfony/console": "^4.0"
+        "symfony/process": "^3.4",
+        "symfony/console": "^3.4"
     },
     "autoload": {
         "psr-4": {
