@@ -4,6 +4,7 @@
 
 use therealsmat\ListCommand;
 use therealsmat\NewSiteCommand;
+use therealsmat\DeleteSiteCommand;
 use Symfony\Component\Console\Application;
 
 require 'vendor/autoload.php';
@@ -11,4 +12,5 @@ require 'vendor/autoload.php';
 $app = new Application("PHP console tool for managing virtual hosts", "1.0");
 $app->add(new ListCommand);
 $app->add(new NewSiteCommand);
+$app->add(new DeleteSiteCommand);
 $app->run();

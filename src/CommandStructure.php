@@ -1,6 +1,7 @@
 <?php namespace therealsmat;
 
 use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Question\ChoiceQuestion;
 use Symfony\Component\Console\Question\Question;
 use Symfony\Component\Process\Process;
 
@@ -26,6 +27,17 @@ class CommandStructure extends command {
         $question = new Question($question, $default);
 
         return $helper->ask($input, $output, $question);
+    }
+
+    protected function askWithOptions($question, array $options, $input, $output)
+    {
+        $helper = $this->getHelper('question');
+
+        $question = new ChoiceQuestion($question, $options, 1);
+
+        $question->setErrorMessage('Site %s does not exists!');
+
+        return $helper->ask($input, $output,$question );
     }
 
     protected function runCommand($command, $showRealTimeOutput = false)
