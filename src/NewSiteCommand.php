@@ -1,14 +1,9 @@
 <?php namespace therealsmat;
 
-use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Output\NullOutput;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Question\Question;
-use Symfony\Component\Process\Process;
 
-class NewSiteCommand extends command{
+class NewSiteCommand extends CommandStructure {
 
     /**
      * Default extention to be used
@@ -17,10 +12,6 @@ class NewSiteCommand extends command{
     private $ext = '.conf';
 
     private $port = 80;
-
-    private $sites_available_dir = '/etc/apache2/sites-available/';
-
-    private $sites_enabled_dir = '/etc/apache2/sites-enabled/';
 
     public function configure()
     {
@@ -122,46 +113,5 @@ class NewSiteCommand extends command{
         $hosts = file_get_contents('/etc/hosts');
         $hosts .= "127.0.0.1       {$site}".PHP_EOL;
         file_put_contents('/etc/hosts', $hosts);
-    }
-
-    private function ask($question, $input, $output, $default = NULL)
-    {
-        $helper = $this->getHelper('question');
-
-        $question = new Question($question, $default);
-
-        return $helper->ask($input, $output, $question);
-    }
-
-    private function getAvailableSites()
-    {
-        $command = "cd {$this->sites_enabled_dir} && ls";
-        $process = new Process($command);
-        $process->run();
-
-        return $process->getOutput();
-    }
-
-    private function runCommand($command, $showRealTimeOutput = false)
-    {
-        $process = new Process($command);
-
-        if($showRealTimeOutput) {
-            $process->run(function($type, $buffer){
-                echo $buffer;
-            });
-            return;
-        }
-
-        $process->run();
-
-        return $process->getOutput();
-    }
-
-    private function ensureDirectoryExists($domain_dir)
-    {
-        if (! file_exists($domain_dir)) {
-            mkdir($domain_dir);
-        }
     }
 }
