@@ -46,11 +46,11 @@ class NewSiteCommand extends CommandStructure {
 
         $this->addToHosts($site_name);
 
-        $output->writeln("----------------------------------------------------");
+        $output->writeln("====================================================");
 
         $output->writeln("<info>Site {$site_name} created successfully!</info>");
 
-        $output->writeln("----------------------------------------------------");
+        $output->writeln("====================================================");
     }
 
     private function getDomainDirectory()

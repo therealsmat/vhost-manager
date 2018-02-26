@@ -28,12 +28,11 @@ class DeleteSiteCommand extends CommandStructure {
 
         $this->deleteSite($site);
 
-
-        $output->writeln("----------------------------------------------------");
+        $output->writeln("=====================================================");
 
         $output->writeln("<info>Site {$site} deleted successfully!</info>");
 
-        $output->writeln("----------------------------------------------------");
+        $output->writeln("=====================================================");
 
     }
 
