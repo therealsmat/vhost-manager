@@ -59,7 +59,7 @@ class NewNginxSiteCommand extends CommandStructure implements SiteInterface {
 
         $this->createSite($site_name, $domain_dir, $public_dir);
 
-        $this->runCommand("sudo a2ensite {$site_name}.conf && systemctl reload apache2", TRUE);
+        $this->runCommand("sudo a2ensite {$site_name}.conf && systemctl reload nginx", TRUE);
 
         $this->addToHosts($site_name);
 
@@ -89,32 +89,20 @@ class NewNginxSiteCommand extends CommandStructure implements SiteInterface {
     public function template($site_name, $domain_dir, $public_dir)
     {
         $document_root = $domain_dir.'/'.$public_dir;
-        return "<VirtualHost *:{$this->port}>
 
-                    ServerName www.{$site_name}
-                    ServerAlias {$site_name}
-                    DocumentRoot {$document_root}
-
-                    <Directory {$document_root}>
-                        Options Indexes FollowSymLinks
-                        AllowOverride All
-                        Require all granted
-                    </Directory>
-
-                    # Available loglevels: trace8, ..., trace1, debug, info, notice, warn,
-                    # error, crit, alert, emerg.
-                    # It is also possible to configure the loglevel for particular
-                    # modules, e.g.
-                    #LogLevel info ssl:warn
-
-                    ErrorLog {$domain_dir}/error.log
-                    CustomLog {$domain_dir}/access.log combined
-
-                </VirtualHost>
-
-                # vim: syntax=apache ts=4 sw=4 sts=4 sr noet
-
-                ";
+        return "
+            listen {$this->port};
+            listen [::]:{$this->port};
+    
+            root {$document_root};
+            index index.php index.html index.htm index.nginx-debian.html;
+    
+            server_name {$site_name} www.{$site_name};
+    
+            location / {
+                    try_files \$uri \$uri/ =404;
+            }
+        ";
     }
 
     public function createSite($site_name, $domain_dir, $public_dir)
