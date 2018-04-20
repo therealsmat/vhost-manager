@@ -21,7 +21,7 @@ class ListCommand extends command{
         $command = "cd {$enabled_sites_dir} && ls";
         $process = new Process($command);
         $table = new Table($output);
-        $table->setHeaders(['#', 'Domain Names']);
+        $table->setHeaders(['#', 'Domain Name']);
         $process->run(function ($type, $line) use ($output, $table){
             $table->setRows([
                ['#', $line]

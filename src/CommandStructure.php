@@ -7,10 +7,6 @@ use Symfony\Component\Process\Process;
 
 class CommandStructure extends command {
 
-    protected $sites_available_dir = '/etc/apache2/sites-available/';
-
-    protected $sites_enabled_dir = '/etc/apache2/sites-enabled/';
-
     protected function getAvailableSites()
     {
         $command = "cd {$this->sites_enabled_dir} && ls";
