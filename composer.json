@@ -1,8 +1,7 @@
 {
     "name": "therealsmat/vhost-manager",
-    "author": "Oluwatosin Soremekun <soremekunoluwatosinsamuel@gmail.com>",
+    "author": "Oluwatosin Soremekun <me@tosinsoremekun.com>",
     "description": "A command line tool to easily create and manage virtual hosts",
-    "type": "metapackage",
     "require": {
         "symfony/process": "^3.4",
         "symfony/console": "^3.4"
@@ -13,5 +12,8 @@
         }
     },
     "license": "MIT",
-    "minimum-stability": "stable"
+    "minimum-stability": "stable",
+    "bin": [
+        "vhost"
+    ]
 }

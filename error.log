@@ -1,3 +1,0 @@
-[Sun Feb 25 21:59:43.977114 2018] [authz_core:error] [pid 3863] [client 127.0.0.1:34398] AH01630: client denied by server configuration: /home/therealsmat/code/command-apps/vhost-manager/public
-[Sun Feb 25 22:00:06.150556 2018] [authz_core:error] [pid 3864] [client 127.0.0.1:34458] AH01630: client denied by server configuration: /home/therealsmat/code/command-apps/vhost-manager/public
-[Sun Feb 25 22:00:06.678537 2018] [authz_core:error] [pid 3864] [client 127.0.0.1:34458] AH01630: client denied by server configuration: /home/therealsmat/code/command-apps/vhost-manager/public, referer: http://tosin.local/
